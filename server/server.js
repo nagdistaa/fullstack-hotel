@@ -1,0 +1,20 @@
+import express from 'express';
+import 'dotenv/config';
+import connectDB from './configs/db.js';
+await connectDB() ; 
+import { clerkMiddleware } from '@clerk/express'
+import clerkWebhooks from './controllers/clerkwebhooks.controller.js';
+
+// ! VARIABLES
+const app = express();
+const port = process.env.PORT || 5001;
+// ! MIDDLEWARE
+app.use(clerkMiddleware())
+// ! ROUTE
+app.use('/api/clerk',clerkWebhooks)
+app.get('/',(req,res)=>res.send("API"))
+
+// ! SERVER
+app.listen(port,()=>{
+  console.log(`Server Starting on port :${port}, http://localhost:${port}`)
+})
