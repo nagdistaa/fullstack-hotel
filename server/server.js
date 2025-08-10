@@ -9,6 +9,7 @@ import clerkWebhooks from './controllers/clerkwebhooks.controller.js';
 const app = express();
 const port = process.env.PORT || 5001;
 // ! MIDDLEWARE
+app.use(express.json())
 app.use(clerkMiddleware())
 // ! ROUTE
 app.use('/api/clerk',clerkWebhooks)
