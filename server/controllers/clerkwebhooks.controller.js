@@ -26,6 +26,7 @@ const clerkWebhooks = async (req, res) => {
       case "user.created": {
         console.log("type: user.created");
         await User.create(userData);
+        console.log("User Created Sucessfully");
         break;
       }
       case "user.updated": {
@@ -36,6 +37,7 @@ const clerkWebhooks = async (req, res) => {
       case "user.deleted": {
         console.log("type: user.deleted");
         await User.findByIdAndDelete(data.id);
+        console.log("user Deleted Sucessfully");
         break;
       }
 
