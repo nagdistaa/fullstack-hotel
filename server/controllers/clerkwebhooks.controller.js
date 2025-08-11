@@ -13,6 +13,7 @@ const clerkWebhooks = async (req, res) => {
     await whook.verify(JSON.stringify(req.body), headers);
 
     const { data, type } = req.body;
+    console.log("Data and type", data, type);
 
     const userData = {
       _id: data.id,
@@ -23,14 +24,17 @@ const clerkWebhooks = async (req, res) => {
 
     switch (type) {
       case "user.created": {
-        User.create(userData);
+        console.log("type: user.created");
+        await User.create(userData);
         break;
       }
       case "user.updated": {
+        console.log("type: user.updated");
         await User.findByIdAndUpdate(data.id, userData);
         break;
       }
       case "user.deleted": {
+        console.log("type: user.deleted");
         await User.findByIdAndDelete(data.id);
         break;
       }
