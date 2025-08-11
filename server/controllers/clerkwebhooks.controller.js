@@ -15,34 +15,31 @@ const clerkWebhooks = async (req, res) => {
     const { data, type } = req.body;
     console.log("Data and type", data, type);
 
-    const userData = {
-      _id: data.id,
-      email: data.email_addresses[0].email_address,
-      username: data.first_name + " " + data.last_name,
-      image: data.image_url,
-    };
 
     switch (type) {
       case "user.created": {
-        console.log("type: user.created");
+        const userData = {
+          _id: data.id,
+          email: data.email_addresses[0].email_address,
+          username: data.first_name + " " + data.last_name,
+          image: data.image_url,
+        };
         await User.create(userData);
-        console.log("User Created Sucessfully");
         break;
       }
       case "user.updated": {
-        console.log("type: user.updated");
+        const userData = {
+          email: data.email_addresses[0].email_address,
+          username: data.first_name + " " + data.last_name,
+          image: data.image_url,
+        };
         await User.findByIdAndUpdate(data.id, userData);
         break;
       }
       case "user.deleted": {
-        console.log("type: user.deleted");
         await User.findByIdAndDelete(data.id);
-        console.log("user Deleted Sucessfully");
         break;
       }
-
-      default:
-        break;
     }
 
     res.json({ sucess: true, message: "WebHook Recieved" });
